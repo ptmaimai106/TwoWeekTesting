@@ -3,6 +3,7 @@ var KEY_UP = 38;
 var KEY_RIGHT = 39;
 var KEY_DOWN = 40;
 
+const mod = document.getElementsByName('option');
 
 var canvas, ctx;
 var gridSize = tileSize = 20; 
@@ -14,12 +15,22 @@ var snakeTrail = [];
 
 
 function render() {
+  const modGame = mod[1].checked  
+
+  if(!modGame ){
+    console.log(snakeY)
+    if(snakeY <= 0 || snakeY > gridSize -1 || snakeX <= 0  || snakeX > gridSize - 1   ){
+      return;
+    }
+  }
+
   snakeX += nextX;
   snakeY += nextY;
 
-  if (snakeY < 0) {
+  if (snakeY < 0 ) {
     snakeY = gridSize - 1;
   }
+
   if (snakeY > gridSize - 1) {
     snakeY = 0;
   }
@@ -67,6 +78,8 @@ function render() {
   while (snakeTrail.length > tailSize) {
     snakeTrail.shift();
   }
+
+
 }
 
 function keyDownEvent(e) {
