@@ -23,7 +23,7 @@
     display: grid;
     grid-template-rows: repeat(var(--grid-rows), 1fr);
     grid-template-columns: repeat(var(--grid-cols), 1fr);
-
+    width: 100%;
   }
 
   .sticky {
