@@ -4,6 +4,8 @@ const row = document.getElementById('row');
 const col = document.getElementById('column');
 const buttonGenerate = document.querySelector('.generate');
 let rows=cols=1;
+let tempRows = 0;
+let countLoad = 1;
 
 let values = [];
 
@@ -20,7 +22,22 @@ function setFixHeader() {
 
 function load(){
   console.log("load more")
+  let restedRows = tempRows - 100*countLoad;
+  let cols = col.value;
+
+  if(restedRows <= 0){
+    return;
+  }
   
+  for (c = 0; c < (restedRows * cols); c++) {
+    let cell = document.createElement("div");
+    let value = Math.floor(Math.random() *1000);
+    values.push(value);
+    cell.innerText = (value);
+    grid.appendChild(cell).className = "grid-item";
+  };
+
+  countLoad ++ ;
 }
 
 function generateGrid(rows, cols) {
@@ -28,7 +45,10 @@ function generateGrid(rows, cols) {
   grid.style.setProperty('--grid-rows', rows);
   grid.style.setProperty('--grid-cols', cols);  
 
- 
+  if(cols > 100){
+    tempRows = cols;
+    cols = 100;
+  }
   for (c = 0; c < (rows * cols); c++) {
     let cell = document.createElement("div");
     let value = Math.floor(Math.random() *1000);
@@ -102,8 +122,9 @@ function handleGenerate(){
 buttonGenerate.addEventListener('click', handleGenerate);
 
 window.addEventListener('scroll', function() {
-  if (grid.offsetTop + window.scrollY >= 4767) {
+  if (window.innerHeight + window.scrollY + header.offsetTop>= grid.clientHeight) {
     load();
   }
+
 });
 
