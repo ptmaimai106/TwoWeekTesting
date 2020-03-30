@@ -18,28 +18,24 @@ function setFixHeader() {
   }
 }
 
+function load(){
+  console.log("load more")
+  
+}
 
 function generateGrid(rows, cols) {
   grid.innerHTML=''
   grid.style.setProperty('--grid-rows', rows);
   grid.style.setProperty('--grid-cols', cols);  
 
+ 
   for (c = 0; c < (rows * cols); c++) {
     let cell = document.createElement("div");
     let value = Math.floor(Math.random() *1000);
-    while(true){
-        if(values.length === 0){
-            values.push(value);
-            break;
-        }
-        if(values.indexOf(value) === -1){
-            values.push(value);
-            break;
-        }        
-        value = Math.floor(Math.random() *1000);
-    }
+    values.push(value);
     cell.innerText = (value);
     grid.appendChild(cell).className = "grid-item";
+
   };
 };
 
@@ -76,15 +72,12 @@ function handleSort(){
     }
   })
 
-
   //sort
-
   originValues.sort((a,b) =>  Number(a)>=Number(b)? 1:-1)
 
   //update grid item
-
   gridValues.forEach((item, index) =>{
-    if(index % 20 === indexClick -1 ){
+    if(index % cols === indexClick -1 ){
       item.innerHTML = originValues.shift();
     }
   })
@@ -101,7 +94,6 @@ function handleGenerate(){
   generateHeader(cols || 20);
   generateGrid(rows || 20, cols ||20);
 
-
   const index = header.querySelectorAll('.header-item');
   index.forEach(item => item.addEventListener('click', handleSort))
 }
@@ -109,6 +101,9 @@ function handleGenerate(){
 
 buttonGenerate.addEventListener('click', handleGenerate);
 
-
-
+window.addEventListener('scroll', function() {
+  if (grid.offsetTop + window.scrollY >= 4767) {
+    load();
+  }
+});
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>TASK1.2</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="head">
+                <label for="row" >Num of row and column :</label>
+                <input type="number" id="row" min="3" name="row">
+                <br><br/>
+                <label for="consecutive-square" >Num of consecutive squares :</label>
+                <input type="number" id="consecutive-square" min="3" name="consecutive-square">
+                <br><br/>
+                <button class="generate">Generate</button>
+                <br><br/>
+                <div id="header"></div>
+            </div>
+
+            <div class="next-player"></div>
+            <div id="game"></div>
+            <div class="winner"></div>
+        </div>
+        <script src="script.js"></script>
+
+    </body>
+</html>
