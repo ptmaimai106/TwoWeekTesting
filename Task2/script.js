@@ -3,13 +3,14 @@ const header = document.getElementById("header")
 const row = document.getElementById('row');
 const col = document.getElementById('column');
 const buttonGenerate = document.querySelector('.generate');
+let rows=cols=1;
 
 let values = [];
 
-window.onscroll = function() {myFunction()};
+window.onscroll = function() {setFixHeader()};
 var sticky = header.offsetTop;
 
-function myFunction() {
+function setFixHeader() {
   if (window.pageYOffset > sticky) {
     header.classList.add("sticky");
   } else {
@@ -19,6 +20,7 @@ function myFunction() {
 
 
 function generateGrid(rows, cols) {
+  grid.innerHTML=''
   grid.style.setProperty('--grid-rows', rows);
   grid.style.setProperty('--grid-cols', cols);  
 
@@ -42,10 +44,10 @@ function generateGrid(rows, cols) {
 };
 
 function generateHeader(cols){
+  header.innerHTML=''
     header.style.setProperty('--grid-rows', 1);
     header.style.setProperty('--grid-cols', cols);
 
-    // header.style.width = grid.style.width;
 
     for (c = 0; c < cols; c++) {
         let cell = document.createElement("div");
@@ -57,18 +59,56 @@ function generateHeader(cols){
 }
 
 
+function handleSort(){
+  let indexClick = this.innerHTML;
+  let cols = Number(col.value)|| 20 ;
+  let gridValues = grid.querySelectorAll('.grid-item');
+  let originValues = [];
 
-function handleGenerate(){
-    const rows = row.value;
-    const cols = col.value;
-    generateGrid(rows, cols);
-    generateHeader(cols);
+  //get item
+  gridValues.forEach((item, index) =>{
+    
+    item.classList.remove('grid-item-sorted')
+    if(index % cols === indexClick -1 ){
+      originValues.push(item.innerHTML)
+      item.classList.add('grid-item-sorted')
+
+    }
+  })
+
+
+  //sort
+
+  originValues.sort((a,b) =>  Number(a)>=Number(b)? 1:-1)
+
+  //update grid item
+
+  gridValues.forEach((item, index) =>{
+    if(index % 20 === indexClick -1 ){
+      item.innerHTML = originValues.shift();
+    }
+  })
+
+
 
 
 }
 
 
-buttonGenerate.addEventListener('click', handleGenerate)
+function handleGenerate(){
+  rows = row.value;
+  cols = col.value;
+  generateHeader(cols || 20);
+  generateGrid(rows || 20, cols ||20);
+
+
+  const index = header.querySelectorAll('.header-item');
+  index.forEach(item => item.addEventListener('click', handleSort))
+}
+
+
+buttonGenerate.addEventListener('click', handleGenerate);
+
 
 
 
